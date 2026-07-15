@@ -7,9 +7,11 @@
     },
     "stripe": {
       "name": "@absolutejs/wallet-stripe",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
+        "@absolutejs/manifest": "^0.1.0",
         "@absolutejs/wallet": "^0.1.2",
+        "@sinclair/typebox": "^0.34.0",
         "stripe": "^20.2.0",
       },
       "devDependencies": {

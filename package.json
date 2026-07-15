@@ -1,0 +1,7 @@
+{
+  "name": "@absolutejs/wallet-adapters",
+  "private": true,
+  "type": "module",
+  "workspaces": ["stripe"],
+  "scripts": { "build": "bun run --filter './*' build", "test": "bun run --filter './*' test", "typecheck": "bun run --filter './*' typecheck" }
+}

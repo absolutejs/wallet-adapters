@@ -4,8 +4,9 @@ import { manifest } from "../src/manifest";
 import type Stripe from "stripe";
 
 const retrieved: Stripe.PaymentIntent = { id: "pi_wallet", object: "payment_intent", metadata: { kind: "wallet_funding", user_sub: "user:1", owner_id: "player:1" } } as unknown as Stripe.PaymentIntent;
+let checkoutInput: unknown;
 const adapter = createStripeWalletAdapter({ webhookSecret: "whsec_test", stripe: {
-  checkout: { sessions: { create: async (input: unknown) => ({ id: "cs_test", url: "https://checkout.test", input }) } } as never,
+  checkout: { sessions: { create: async (input: unknown) => { checkoutInput = input; return { id: "cs_test", url: "https://checkout.test" }; } } } as never,
   paymentIntents: { retrieve: async () => retrieved } as never,
   webhooks: { constructEventAsync: async () => ({ id: "evt_verified" }) } as never,
 } });
@@ -25,6 +26,16 @@ describe("Stripe wallet adapter", () => {
   test("normalizes paid checkout without trusting client callbacks", async () => {
     const action = await adapter.normalizeEvent(event("checkout.session.completed", { id: "cs_1", metadata: { kind: "wallet_funding", user_sub: "user:1", owner_id: "player:1" }, payment_status: "paid", amount_total: 500, payment_intent: "pi_wallet" }));
     expect(action).toMatchObject({ kind: "fund", ownerId: "player:1", amountCents: 500, idempotencyKey: "stripe:wallet:cs_1" });
+  });
+  test("allows Stripe Checkout to create a customer for a first deposit", async () => {
+    await adapter.createFundingCheckout({
+      amountCents: 500,
+      cancelUrl: "https://app.test/wallet",
+      ownerId: "project-1",
+      successUrl: "https://app.test/wallet?funding=success",
+      userSub: "user-1",
+    });
+    expect((checkoutInput as { customer?: string }).customer).toBeUndefined();
   });
   test("normalizes final refunds once", async () => {
     const action = await adapter.normalizeEvent(event("refund.updated", { id: "re_1", status: "succeeded", amount: 125, payment_intent: "pi_wallet" }));

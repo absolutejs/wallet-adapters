@@ -13,7 +13,7 @@ export type FundingCheckoutInput = {
   amountCents: number;
   ownerId: string;
   userSub: string;
-  customerId: string;
+  customerId?: string;
   successUrl: string;
   cancelUrl: string;
   productName?: string;
@@ -82,7 +82,7 @@ export const createStripeWalletAdapter = ({ stripe, webhookSecret, policy = stea
       if (amountCents < policy.minimumFundingCents || amountCents > policy.maximumTransactionCents) throw new Error("wallet funding amount is outside policy");
       const commonMetadata = { kind: "wallet_funding", user_sub: input.userSub, owner_id: input.ownerId, amount_cents: String(amountCents) };
       return stripe.checkout.sessions.create({
-        mode: "payment", customer: input.customerId, client_reference_id: input.userSub,
+        mode: "payment", ...(input.customerId ? { customer: input.customerId } : {}), client_reference_id: input.userSub,
         payment_method_types: ["card"], billing_address_collection: "required", customer_update: { address: "auto", name: "auto" },
         line_items: [{ quantity: 1, price_data: { currency: input.currency ?? policy.currency.toLowerCase(), unit_amount: amountCents, product_data: { name: input.productName ?? "Wallet deposit", description: input.description ?? "Closed-loop balance; not redeemable for cash." } } }],
         payment_intent_data: { description: input.statement ?? "Closed-loop wallet funding", metadata: commonMetadata }, metadata: commonMetadata,

@@ -81,7 +81,7 @@ export const createStripeWalletAdapter = ({ stripe, webhookSecret, policy = stea
       const amountCents = cents(input.amountCents, "funding amount");
       if (amountCents < policy.minimumFundingCents || amountCents > policy.maximumTransactionCents) throw new Error("wallet funding amount is outside policy");
       const commonMetadata = { kind: "wallet_funding", user_sub: input.userSub, owner_id: input.ownerId, amount_cents: String(amountCents) };
-      return stripe.checkout.sessions.create({
+      const session = await stripe.checkout.sessions.create({
         mode: "payment", ...(input.customerId ? { customer: input.customerId } : {}), client_reference_id: input.userSub,
         payment_method_types: ["card"], billing_address_collection: "required", customer_update: { address: "auto", name: "auto" },
         line_items: [{ quantity: 1, price_data: { currency: input.currency ?? policy.currency.toLowerCase(), unit_amount: amountCents, product_data: { name: input.productName ?? "Wallet deposit", description: input.description ?? "Closed-loop balance; not redeemable for cash." } } }],
@@ -89,8 +89,11 @@ export const createStripeWalletAdapter = ({ stripe, webhookSecret, policy = stea
         success_url: input.successUrl, cancel_url: input.cancelUrl, expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
         custom_text: { submit: { message: "Funds stay inside this application and cannot be withdrawn or redeemed for cash." } },
       });
+      return { id: session.id, url: session.url };
     },
     verifyWebhook: (payload: string, signature: string) => stripe.webhooks.constructEventAsync(payload, signature, webhookSecret),
+    verifyAndNormalizeWebhook: async (payload: string, signature: string) =>
+      normalizeEvent(await stripe.webhooks.constructEventAsync(payload, signature, webhookSecret)),
     normalizeEvent,
   };
 };

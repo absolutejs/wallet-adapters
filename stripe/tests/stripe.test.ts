@@ -27,6 +27,10 @@ describe("Stripe wallet adapter", () => {
     const action = await adapter.normalizeEvent(event("checkout.session.completed", { id: "cs_1", metadata: { kind: "wallet_funding", user_sub: "user:1", owner_id: "player:1" }, payment_status: "paid", amount_total: 500, payment_intent: "pi_wallet" }));
     expect(action).toMatchObject({ kind: "fund", ownerId: "player:1", amountCents: 500, idempotencyKey: "stripe:wallet:cs_1" });
   });
+  test("verifies and normalizes in one provider-contained boundary", async () => {
+    const verified = await adapter.verifyAndNormalizeWebhook("{}", "signature");
+    expect(verified).toMatchObject({ eventId: "evt_verified", kind: "ignored" });
+  });
   test("allows Stripe Checkout to create a customer for a first deposit", async () => {
     await adapter.createFundingCheckout({
       amountCents: 500,

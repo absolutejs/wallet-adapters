@@ -11,6 +11,9 @@ registry.
 0.7's atomic provider-event contract. The wallet store owns idempotency,
 double-entry application, liability balances, dispute freezing, and reviewed
 reactivation; the Stripe adapter never mutates host state itself.
+`verifyAndNormalizeWebhook()` keeps the provider event type inside the adapter,
+and Checkout returns only the stable hosted-session ID and URL rather than a
+Stripe SDK object.
 
 The adapter creates closed-loop funding Checkout sessions, verifies Stripe signatures,
 and converts paid sessions, final refunds, disputes, and won disputes into stable,

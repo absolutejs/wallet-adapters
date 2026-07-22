@@ -1,4 +1,4 @@
-import { cents, steamLikeWalletPolicy, type WalletPolicy } from "@absolutejs/wallet";
+import { cents, steamLikeWalletPolicy, type WalletFundingEvent, type WalletPolicy } from "@absolutejs/wallet";
 import type Stripe from "stripe";
 
 export type StripeWalletMetadata = { userSub: string; ownerId: string };
@@ -96,3 +96,17 @@ export const createStripeWalletAdapter = ({ stripe, webhookSecret, policy = stea
 };
 
 export type StripeWalletAdapter = ReturnType<typeof createStripeWalletAdapter>;
+
+export const toWalletFundingEvent = (
+  action: StripeWalletAction,
+  accounts: { accountId: string; clearingAccountId: string },
+): WalletFundingEvent | null => {
+  if (action.kind === "ignored") return null;
+  return {
+    ...accounts,
+    amountCents: Math.abs(action.amountCents),
+    idempotencyKey: action.idempotencyKey,
+    kind: action.kind,
+    paymentRef: action.paymentRef,
+  };
+};

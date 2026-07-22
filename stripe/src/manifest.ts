@@ -47,7 +47,7 @@ export const manifest = defineManifest<AdapterOptions>()({
         peers: [
           {
             name: "@absolutejs/wallet",
-            range: ">=0.6.0 <0.7.0",
+            range: ">=0.7.0 <0.8.0",
             reason: "Closed-loop wallet policy and journal",
           },
           {

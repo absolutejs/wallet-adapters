@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { createStripeWalletAdapter } from "../src/index";
+import { createStripeWalletAdapter, toWalletFundingEvent } from "../src/index";
 import { manifest } from "../src/manifest";
 import type Stripe from "stripe";
 
@@ -29,6 +29,17 @@ describe("Stripe wallet adapter", () => {
   test("normalizes final refunds once", async () => {
     const action = await adapter.normalizeEvent(event("refund.updated", { id: "re_1", status: "succeeded", amount: 125, payment_intent: "pi_wallet" }));
     expect(action).toMatchObject({ kind: "refund", amountCents: -125, idempotencyKey: "stripe:refund:re_1", freeze: false });
+  });
+  test("bridges normalized evidence into the atomic wallet event contract", async () => {
+    const action = await adapter.normalizeEvent(event("charge.dispute.created", { id: "dp_bridge", amount: 500, payment_intent: "pi_wallet" }));
+    expect(toWalletFundingEvent(action, { accountId: "wallet:project-1", clearingAccountId: "wallet:stripe:clearing" })).toEqual({
+      accountId: "wallet:project-1",
+      amountCents: 500,
+      clearingAccountId: "wallet:stripe:clearing",
+      idempotencyKey: "stripe:dispute:dp_bridge:opened",
+      kind: "dispute",
+      paymentRef: "dp_bridge",
+    });
   });
   test("freezes on dispute and restores a won dispute", async () => {
     const opened = await adapter.normalizeEvent(event("charge.dispute.created", { id: "dp_1", amount: 500, payment_intent: "pi_wallet" }));

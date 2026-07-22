@@ -106,7 +106,7 @@ export const toWalletFundingEvent = (
     ...accounts,
     amountCents: Math.abs(action.amountCents),
     idempotencyKey: action.idempotencyKey,
-    kind: action.kind,
+    kind: action.kind === "fund" ? "funding" : action.kind,
     paymentRef: action.paymentRef,
   };
 };

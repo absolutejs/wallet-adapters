@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { createStripeWalletAdapter } from "../src/index";
+import { manifest } from "../src/manifest";
 import type Stripe from "stripe";
 
 const retrieved: Stripe.PaymentIntent = { id: "pi_wallet", object: "payment_intent", metadata: { kind: "wallet_funding", user_sub: "user:1", owner_id: "player:1" } } as unknown as Stripe.PaymentIntent;
@@ -11,6 +12,16 @@ const adapter = createStripeWalletAdapter({ webhookSecret: "whsec_test", stripe:
 const event = <T extends Stripe.Event.Type>(type: T, object: unknown): Stripe.Event => ({ id: `evt_${type}`, type, data: { object }, livemode: false } as Stripe.Event);
 
 describe("Stripe wallet adapter", () => {
+  test("publishes a contract 2 funding implementation", () => {
+    expect(manifest.contract).toBe(2);
+    expect(manifest.implements).toEqual([
+      expect.objectContaining({
+        contract: "wallet/funding-adapter",
+        factory: "createStripeWalletAdapter",
+        from: "@absolutejs/wallet-stripe",
+      }),
+    ]);
+  });
   test("normalizes paid checkout without trusting client callbacks", async () => {
     const action = await adapter.normalizeEvent(event("checkout.session.completed", { id: "cs_1", metadata: { kind: "wallet_funding", user_sub: "user:1", owner_id: "player:1" }, payment_status: "paid", amount_total: 500, payment_intent: "pi_wallet" }));
     expect(action).toMatchObject({ kind: "fund", ownerId: "player:1", amountCents: 500, idempotencyKey: "stripe:wallet:cs_1" });

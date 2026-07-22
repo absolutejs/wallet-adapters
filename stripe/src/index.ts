@@ -23,7 +23,7 @@ export type FundingCheckoutInput = {
 };
 
 type StripeClient = Pick<Stripe, "checkout" | "paymentIntents" | "webhooks">;
-type AdapterOptions = { stripe: StripeClient; webhookSecret: string; policy?: WalletPolicy };
+export type AdapterOptions = { stripe: StripeClient; webhookSecret: string; policy?: WalletPolicy };
 
 const metadata = (raw: Stripe.Metadata | null | undefined): StripeWalletMetadata | null => {
   if (raw?.kind !== "wallet_funding") return null;

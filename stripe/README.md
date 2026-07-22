@@ -2,6 +2,11 @@
 
 Stripe Checkout funding and webhook normalization for `@absolutejs/wallet`.
 
+The package publishes an AbsoluteJS Manifest contract 2 implementation of
+`wallet/funding-adapter`, including its Stripe SDK and secret requirements, so
+hosts can discover and wire it without maintaining a provider-specific
+registry.
+
 The adapter creates closed-loop funding Checkout sessions, verifies Stripe signatures,
 and converts paid sessions, final refunds, disputes, and won disputes into stable,
 idempotent wallet actions. It never mutates an application database: the host applies

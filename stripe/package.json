@@ -1,6 +1,6 @@
 {
   "name": "@absolutejs/wallet-stripe",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Stripe Checkout funding, verified webhook normalization, refunds, and dispute actions for @absolutejs/wallet.",
   "type": "module",
   "license": "BSL-1.1",
@@ -22,7 +22,21 @@
     "check:package": "bun run typecheck && bun run test && bun run build"
   },
   "peerDependencies": { "@absolutejs/wallet": ">=0.9.1 <0.10.0", "stripe": ">=22.3.2 <23.0.0" },
-  "dependencies": { "@absolutejs/manifest": "^0.3.0", "@sinclair/typebox": "^0.34.0" },
-  "devDependencies": { "@absolutejs/agency": "0.7.1", "@absolutejs/wallet": "0.9.1", "@types/bun": "^1.3.14", "stripe": "^22.3.2", "typescript": "^5.9.0" },
-  "absolutejs": { "manifestContract": 2 }
+  "dependencies": { "@absolutejs/manifest": "^0.6.0", "@sinclair/typebox": "^0.34.0" },
+  "devDependencies": { "@absolutejs/agency": "0.7.1", "@absolutejs/wallet": "0.9.1", "@types/bun": "^1.3.14", "stripe": "22.3.2", "typescript": "^5.9.0" },
+  "absolutejs": {
+    "manifestContract": 2,
+    "runtimePeers": {
+      "@absolutejs/wallet": {
+        "range": ">=0.9.1 <0.10.0",
+        "tested": "0.9.1",
+        "buildExternals": ["@absolutejs/wallet", "@absolutejs/wallet/*"]
+      },
+      "stripe": {
+        "range": ">=22.3.2 <23.0.0",
+        "tested": "22.3.2",
+        "buildExternals": ["stripe"]
+      }
+    }
+  }
 }

@@ -7,14 +7,14 @@
     },
     "stripe": {
       "name": "@absolutejs/wallet-stripe",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "dependencies": {
-        "@absolutejs/manifest": "^0.6.0",
+        "@absolutejs/manifest": "^0.6.3",
         "@sinclair/typebox": "^0.34.0",
       },
       "devDependencies": {
         "@absolutejs/agency": "0.7.1",
-        "@absolutejs/wallet": "0.9.1",
+        "@absolutejs/wallet": "0.9.3",
         "@types/bun": "^1.3.14",
         "stripe": "22.3.2",
         "typescript": "^5.9.0",
@@ -28,9 +28,9 @@
   "packages": {
     "@absolutejs/agency": ["@absolutejs/agency@0.7.1", "", { "dependencies": { "@absolutejs/manifest": "^0.4.0", "@sinclair/typebox": "^0.34.0" }, "peerDependencies": { "drizzle-orm": ">=1.0.0-rc.4 <2" } }, "sha512-JO083TLtpWlTE0CgtThdAs4ITxWACiUDJI5ZOC0c7zZuJAXm4rKE69Vr42g2xBZV0aZypP26UWpxpESxQeDvvw=="],
 
-    "@absolutejs/manifest": ["@absolutejs/manifest@0.6.0", "", { "peerDependencies": { "@sinclair/typebox": ">=0.34.0 <0.35.0" }, "bin": { "absolute-manifest": "dist/cli.js" } }, "sha512-CFXxZmsSURQoe72aLsL+avKKJ/hskGyPMlEAsydcQd52RzzGthzrmxPWiTofb28d3ThrcUcDwmW4oNyyc0SdJw=="],
+    "@absolutejs/manifest": ["@absolutejs/manifest@0.6.3", "", { "peerDependencies": { "@sinclair/typebox": ">=0.34.0 <0.35.0" }, "bin": { "absolute-manifest": "dist/cli.js" } }, "sha512-wWihLuCEbnnbnHVnQhbVpZnILp3CnPF8/Ogk0yZ/p9nvKD3l3sMuohNLzT8zRJ9uFgjydEpoqhMApcHC225GYg=="],
 
-    "@absolutejs/wallet": ["@absolutejs/wallet@0.9.1", "", { "dependencies": { "@absolutejs/manifest": "^0.4.0", "@sinclair/typebox": "^0.34.0" }, "peerDependencies": { "@absolutejs/agency": ">=0.7.1 <0.8.0", "drizzle-orm": ">=1.0.0-rc.4 <2" } }, "sha512-aNYN7U9Wq6ooM6ozyvZcu74b7Wib0RxTpeFlbxRx+e2PhBRDxuCVc8Bxe5nTay0PTx4NxWGNt1Kwm4grUqaqZg=="],
+    "@absolutejs/wallet": ["@absolutejs/wallet@0.9.3", "", { "dependencies": { "@absolutejs/manifest": "^0.6.3", "@sinclair/typebox": "^0.34.0" }, "peerDependencies": { "@absolutejs/agency": ">=0.7.1 <0.8.0", "drizzle-orm": ">=1.0.0-rc.4 <2" } }, "sha512-kEXgMX1auM/hZ8UL/J3dqVMssot67f2FU8VqsHCnBEZt3nBQWOxjrXDEGwtFXQw6Q7W3sviy/8eqRCNqyoc9Zw=="],
 
     "@absolutejs/wallet-stripe": ["@absolutejs/wallet-stripe@workspace:stripe"],
 
@@ -51,7 +51,5 @@
     "undici-types": ["undici-types@8.3.0", "", {}, "sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ=="],
 
     "@absolutejs/agency/@absolutejs/manifest": ["@absolutejs/manifest@0.4.0", "", { "peerDependencies": { "@sinclair/typebox": "^0.34.0" }, "bin": { "absolute-manifest": "dist/cli.js" } }, "sha512-hhgUMB2Q9+m2BxL7D9fITQfCtYJTwA1IC1jZIFFvz6ESUz4FV2OlvR8q95Dk3xn+TVrSihTitia9VIXD2hD5QA=="],
-
-    "@absolutejs/wallet/@absolutejs/manifest": ["@absolutejs/manifest@0.4.0", "", { "peerDependencies": { "@sinclair/typebox": "^0.34.0" }, "bin": { "absolute-manifest": "dist/cli.js" } }, "sha512-hhgUMB2Q9+m2BxL7D9fITQfCtYJTwA1IC1jZIFFvz6ESUz4FV2OlvR8q95Dk3xn+TVrSihTitia9VIXD2hD5QA=="],
   }
 }

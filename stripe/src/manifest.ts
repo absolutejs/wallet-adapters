@@ -11,13 +11,21 @@ export const manifest = defineManifest<AdapterOptions>()({
       "verify Stripe wallet webhooks",
       "normalize wallet refunds and disputes",
     ],
-    keywords: ["wallet", "stripe", "checkout", "funding", "webhook", "agent-spend"],
+    keywords: [
+      "wallet",
+      "stripe",
+      "checkout",
+      "funding",
+      "webhook",
+      "agent-spend",
+    ],
     protocols: ["HTTPS", "Stripe Webhooks"],
   },
   identity: {
     accent: "#635bff",
     category: "commerce",
-    description: "Stripe Checkout funding and verified funding, refund, dispute, and dispute-reversal normalization for closed-loop AbsoluteJS wallets.",
+    description:
+      "Stripe Checkout funding and verified funding, refund, dispute, and dispute-reversal normalization for closed-loop AbsoluteJS wallets.",
     docsUrl: "https://github.com/absolutejs/wallet-adapters/tree/main/stripe",
     name: "@absolutejs/wallet-stripe",
     tagline: "Trust the signed event, not the redirect.",
@@ -47,7 +55,7 @@ export const manifest = defineManifest<AdapterOptions>()({
         peers: [
           {
             name: "@absolutejs/wallet",
-            range: ">=0.7.0 <0.8.0",
+            range: ">=0.9.1 <0.10.0",
             reason: "Closed-loop wallet policy and journal",
           },
           {
@@ -62,7 +70,10 @@ export const manifest = defineManifest<AdapterOptions>()({
       wiring: {
         code: "createStripeWalletAdapter({ stripe: new Stripe(${env.STRIPE_SECRET_KEY}), webhookSecret: ${env.STRIPE_WALLET_WEBHOOK_SECRET} })",
         imports: [
-          { from: "@absolutejs/wallet-stripe", names: ["createStripeWalletAdapter"] },
+          {
+            from: "@absolutejs/wallet-stripe",
+            names: ["createStripeWalletAdapter"],
+          },
           { from: "stripe", names: ["default as Stripe"] },
         ],
       },

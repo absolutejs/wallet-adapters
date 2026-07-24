@@ -2,6 +2,10 @@
 
 Stripe Checkout funding and webhook normalization for `@absolutejs/wallet`.
 
+Wallet is a required host peer (`>=0.9.1 <0.10.0`) and is externalized from the
+adapter build. The host therefore owns one Wallet and transitive Agency runtime;
+this adapter tests against exactly Wallet `0.9.1`.
+
 The package publishes an AbsoluteJS Manifest contract 2 implementation of
 `wallet/funding-adapter`, including its Stripe SDK and secret requirements, so
 hosts can discover and wire it without maintaining a provider-specific

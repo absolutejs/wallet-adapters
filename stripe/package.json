@@ -61,8 +61,8 @@
         "artifactImports": [
           "@absolutejs/wallet"
         ],
-        "range": ">=0.9.1 <0.10.0",
-        "tested": "0.9.3",
+        "range": ">=0.9.1 <0.11.0",
+        "tested": "0.10.0",
         "buildExternals": [
           "@absolutejs/wallet",
           "@absolutejs/wallet/*"

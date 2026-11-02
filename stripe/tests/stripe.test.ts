@@ -55,7 +55,7 @@ describe("Stripe wallet adapter", () => {
       expect.arrayContaining([
         expect.objectContaining({
           name: "@absolutejs/wallet",
-          range: ">=0.9.1 <0.10.0",
+          range: ">=0.9.1 <0.11.0",
         }),
       ]),
     );

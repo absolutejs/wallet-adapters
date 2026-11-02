@@ -23,10 +23,10 @@ describe("Wallet dependency ownership", () => {
       packageContract.dependencies?.["@absolutejs/wallet"],
     ).toBeUndefined();
     expect(packageContract.peerDependencies?.["@absolutejs/wallet"]).toBe(
-      ">=0.9.1 <0.10.0",
+      ">=0.9.1 <0.11.0",
     );
     expect(packageContract.devDependencies?.["@absolutejs/wallet"]).toBe(
-      "0.9.3",
+      "0.10.0",
     );
     expect(packageContract.devDependencies?.["@absolutejs/agency"]).toBe(
       "0.7.1",
